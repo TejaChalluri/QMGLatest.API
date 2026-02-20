@@ -1,0 +1,6 @@
+@QMGLatest.API_HostAddress = http://localhost:5115
+
+GET {{QMGLatest.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
