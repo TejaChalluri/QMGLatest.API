@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using QMGLatest.API;
 using System.Linq;
 
+
 [ApiController]
 [Route("api/auth")]
 public class AuthController : ControllerBase
