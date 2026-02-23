@@ -2,6 +2,7 @@
 using QMGLatest.API;
 using System.Security.Cryptography;
 using System.Text;
+using static AuthController;
 
 public class AuthService : IAuthService
 {
@@ -25,40 +26,77 @@ public class AuthService : IAuthService
         _config = config;
         _emailService = emailService; 
     }
-    
 
 
-    public string Login(LoginRequest request)
+
+    //public string Login(LoginRequest request)
+    //{
+    //    try
+    //    {
+    //        var user = _userRepo.GetUser(request.UsernameOrEmail, request.Password);
+    //        if (user == null)
+    //            throw new Exception("Invalid credentials");
+
+    //        var otp = OtpManager.GenerateOtp();
+
+    //        _otpRepo.SaveOtp(new Otp
+    //        {
+    //            Username = request.UsernameOrEmail,
+    //            UserId = user.UserId,
+    //            OtpCode = otp,
+    //            ExpiryTime = DateTime.Now.AddMinutes(5),
+    //            IsUsed = false,
+    //        });
+
+    //        //  SEND OTP EMAIL ONLY IF EMAIL EXISTS
+    //        if (!string.IsNullOrWhiteSpace(user.Email))
+    //        {
+    //            _emailService.SendOtpAsync(user.Email, otp);
+    //        }
+
+    //        return otp;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw new Exception($"Login failed: {ex.Message}");
+    //    }
+    //}
+
+
+    public LoginResponse Login(LoginRequest request)
     {
-        try
+        var user = _userRepo.GetUser(request.UsernameOrEmail, request.Password);
+
+        if (user == null)
         {
-            var user = _userRepo.GetUser(request.UsernameOrEmail, request.Password);
-            if (user == null)
-                throw new Exception("Invalid credentials");
-
-            var otp = OtpManager.GenerateOtp();
-
-            _otpRepo.SaveOtp(new Otp
+            return new LoginResponse
             {
-                Username = request.UsernameOrEmail,
-                UserId = user.UserId,
-                OtpCode = otp,
-                ExpiryTime = DateTime.Now.AddMinutes(5),
-                IsUsed = false,
-            });
-
-            //  SEND OTP EMAIL ONLY IF EMAIL EXISTS
-            if (!string.IsNullOrWhiteSpace(user.Email))
-            {
-                _emailService.SendOtpAsync(user.Email, otp);
-            }
-
-            return otp;
+                Success = false,
+                Message = "Invalid username or password"
+            };
         }
-        catch (Exception ex)
+
+        var otp = OtpManager.GenerateOtp();
+
+        _otpRepo.SaveOtp(new Otp
         {
-            throw new Exception($"Login failed: {ex.Message}");
+            Username = request.UsernameOrEmail,
+            UserId = user.UserId,
+            OtpCode = otp,
+            ExpiryTime = DateTime.Now.AddMinutes(5),
+            IsUsed = false,
+        });
+
+        if (!string.IsNullOrWhiteSpace(user.Email))
+        {
+            _emailService.SendOtpAsync(user.Email, otp);
         }
+
+        return new LoginResponse
+        {
+            Success = true,
+            Message = "OTP sent successfully"
+        };
     }
 
     public string VerifyOtp(OtpVerifyRequest request)

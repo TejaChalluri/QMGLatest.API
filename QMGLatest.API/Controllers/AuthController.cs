@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using QMGLatest.API;
 using System.Linq;
 
-
 [ApiController]
 [Route("api/auth")]
 public class AuthController : ControllerBase
@@ -15,14 +14,34 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
+    //[HttpPost("login")]
+    //public IActionResult Login(LoginRequest request)
+    //{
+
+    //        var otp = _authService.Login(request);
+    //        return Ok(otp);
+
+    //}
+
+
+    public class LoginResponse
+    {
+        public bool Success { get; set; }
+        public string? Message { get; set; }
+    }
+
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
     {
+        var result = _authService.Login(request);
 
-            var otp = _authService.Login(request);
-            return Ok(otp);
-        
+        if (!result.Success)
+            return BadRequest(new { message = result.Message });
+
+        return Ok(new { message = result.Message });
     }
+
+
 
     [HttpPost("verify-otp")]
     public IActionResult VerifyOtp(OtpVerifyRequest request)
