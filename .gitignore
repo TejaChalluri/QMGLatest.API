@@ -6,3 +6,9 @@ bin/
 obj/
 *.user
 *.log
+.vs/ 
+*.vsidx 
+*.wsuo 
+DocumentLayout.json 
+*.vsixd 
+QMGLatest.API/FileContentIndex/ 
