@@ -20,7 +20,7 @@ namespace QMGLatest.API.Controllers
         }
 
 
-        [HttpPost("Register_User")]
+        [HttpPost("register")]
         public IActionResult Register_User([FromBody] RegisterRequest user_register_request)
         {
                 _userService.Register_User(user_register_request);
