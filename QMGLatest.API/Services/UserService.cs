@@ -19,14 +19,18 @@ public class UserService : IUserService
             if (existingUser != null)
                 throw new Exception("User already exists");
 
-            var user = new User
-            {
-                Username = user_register_request.Username,
-                Email = user_register_request.Email,
-                Password = user_register_request.Password,
-                RoleName = string.IsNullOrEmpty(user_register_request.RoleName) ? "Admin" : user_register_request.RoleName,
-                RoleNumber = user_register_request.RoleNumber == 0 ? 1 : user_register_request.RoleNumber,
-                IsActive = true
+        var user = new User
+        {
+            FirstName = user_register_request.FirstName,
+            LastName = user_register_request.LastName,
+            Username = user_register_request.Username,
+            Email = user_register_request.Email,
+            Password = user_register_request.Password,
+            RoleName = string.IsNullOrEmpty(user_register_request.RoleName) ? "Admin" : user_register_request.RoleName,
+            RoleNumber = user_register_request.RoleNumber == 0 ? 1 : user_register_request.RoleNumber,
+            IsActive = true,
+            CreatedDate = DateTime.Now,
+            UpdatedDate = DateTime.Now
             };
 
             _userRepo.Register_User(user);

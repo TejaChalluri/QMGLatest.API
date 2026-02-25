@@ -20,11 +20,34 @@ namespace QMGLatest.API.Controllers
         }
 
 
+        //[HttpPost("register")]
+        //public IActionResult Register_User([FromBody] RegisterRequest user_register_request)
+        //{
+        //        _userService.Register_User(user_register_request);
+        //        return Ok(user_register_request);
+        //}
+
         [HttpPost("register")]
         public IActionResult Register_User([FromBody] RegisterRequest user_register_request)
         {
+            
                 _userService.Register_User(user_register_request);
-                return Ok(user_register_request);
+                if (user_register_request != null)
+            {
+                return Ok(new
+                {
+                    success = true,
+                    message = "Registration successful!"
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    success = false,
+                    message = "Registration faile!"
+                });
+            }
         }
 
 
