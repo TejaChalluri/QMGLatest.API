@@ -102,33 +102,6 @@ public class AuthService : IAuthService
     public string VerifyOtp(OtpVerifyRequest request)
     {
 
-
-        //    var otp = _otpRepo.GetOtp(request.UsernameOrEmail, request.Otp);
-        //    if (otp == null)
-        //        throw new Exception("Invalid OTP");
-
-        //    var user = _userRepo.GetUser(request.UsernameOrEmail, request.Password);
-        //    if (user == null)
-        //        throw new Exception("User not found");
-
-        //    var token = JwtTokenGenerator.GenerateToken(
-        //        user,
-        //        _config["JwtKey"]
-        //    );
-
-        //_tokenRepo.SaveToken(new Token
-        //{
-        //    Username = user.Username,
-        //    JwtToken = token,
-        //    RoleName = user.RoleName,
-        //    RoleNumber = user.RoleNumber,
-        //    ExpiryTime = DateTime.Now.AddMinutes(30)
-        //});
-
-        //    return token;
-
-
-
         var otp = _otpRepo.GetOtp(request.UsernameOrEmail, request.Otp);
         if (otp == null)
             return "error|Invalid OTP";
@@ -153,8 +126,5 @@ public class AuthService : IAuthService
 
         return token;
     }
-
-
-
 
 }

@@ -23,8 +23,6 @@ public class EmployeeController : ControllerBase
             if (string.IsNullOrEmpty(role))
                 return Unauthorized("Role not found in token");
                 return Ok(_employeeService.Get_All_The_Employees(role));
-       
-
 
     }
 

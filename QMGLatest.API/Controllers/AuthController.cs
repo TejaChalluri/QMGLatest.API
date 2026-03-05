@@ -14,21 +14,6 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
-    //[HttpPost("login")]
-    //public IActionResult Login(LoginRequest request)
-    //{
-
-    //        var otp = _authService.Login(request);
-    //        return Ok(otp);
-
-    //}
-
-
-    public class LoginResponse
-    {
-        public bool Success { get; set; }
-        public string? Message { get; set; }
-    }
 
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
@@ -47,11 +32,9 @@ public class AuthController : ControllerBase
     public IActionResult VerifyOtp(OtpVerifyRequest request)
     {
 
-        //var otp_v_request = _authService.VerifyOtp(request);
-        //return Ok(new { token = otp_v_request });
         var result = _authService.VerifyOtp(request);
 
-        if (result.Contains("|")) // Check if it's an error message
+        if (result.Contains("|"))
         {
             var errorMessage = result.Split('|')[1];
             return BadRequest(new { message = errorMessage });
@@ -59,14 +42,7 @@ public class AuthController : ControllerBase
 
         return Ok(new { token = result });
     }
-
-    [HttpGet("test-error")]
-    public IActionResult TestError()
-    {
-        throw new Exception("This is a test error for NLog if didn't understood connect with Teja.");
-    }
-
-    
+   
 
 }
 

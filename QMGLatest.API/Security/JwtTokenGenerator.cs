@@ -8,17 +8,6 @@ public class JwtTokenGenerator
 {
     public static string GenerateToken(User user, string key)
     {
-        //var claims = new[]
-        //{
-        //    new Claim("userId", user.UserId.ToString()),
-        //    new Claim("username", user.Username),
-        //    new Claim("role", user.RoleName),
-        //    new Claim("roleNumber", user.RoleNumber.ToString())
-        //    new Claim("fisrtname", user.FirstName.ToString()),
-        //    new Claim("lastname",user.LastName.ToString()),
-        //};
-
-
         var claims = new List<Claim>
     {
         new Claim("userId", user.UserId.ToString()),
